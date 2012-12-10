@@ -4,6 +4,7 @@ public class CORoom {
 	private String description;
 	private String imageFileName;
 	private int directionNorth,directionEast, directionSouth, directionWest, directionUp, directionDown;
+	private int roomNumber;
 	
 	public CORoom() {
 		// TODO Auto-generated constructor stub
@@ -74,6 +75,14 @@ public class CORoom {
 		System.out.println("West: " + this.directionWest);
 		System.out.println("Up: " + this.directionUp);
 		System.out.println("Down: " + this.directionDown);
+	}
+
+	public int getRoomNumber() {
+		return roomNumber;
+	}
+
+	public void setRoomNumber(int roomNumber) {
+		this.roomNumber = roomNumber;
 	}
 
 }

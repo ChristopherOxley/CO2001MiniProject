@@ -14,6 +14,8 @@ public class COLevelLoader {
 		
 	}
 	
+	// Had an issue loading a file when using Javac and building in eclipse, I try
+	// to load the file using one method, if it fails, I use the other method.
 	public COLevelLoader(String fileName) {
 		
 		try {
@@ -30,7 +32,6 @@ public class COLevelLoader {
 		finally{
 		}
 		rooms = parseFileForRooms(bufferedReader);
-		
 	}
 	
 	public ArrayList<CORoom> getRooms(){
@@ -40,61 +41,44 @@ public class COLevelLoader {
 	private ArrayList<CORoom> parseFileForRooms(BufferedReader br){
 		
 		ArrayList <CORoom> rooms = new ArrayList<CORoom>();
-		
 	    try {
 	        String line = br.readLine();
-
 	        int currentLine = 0;
 	        int count = 0;
         	CORoom room = new CORoom();
-
-
+        	room.setRoomNumber(count);
+        	// We know the structure of the file and what is contained on each
+        	// line. 
 	        while (line != null) {
-	        	switch(count){
-	        	
+	        	switch(count){	        	
 	        	case 0:
 	        		room = new CORoom();
 	        		room.setDescription(line);
 	        		break;
-	        		
 	        	case 1:
 	        		room.setImageFileName(line);
 	        		break;
-	  
 	        	case 2:
 	        		room.setdirectionNorth(Integer.valueOf(line));
 	        		break;
-	        		
 	        	case 3:
 	        		room.setdirectionEast(Integer.valueOf(line));
-
 	        		break;
-	        		
 	        	case 4:
 	        		room.setdirectionSouth(Integer.valueOf(line));
-
 	        		break;
-	        		
 	        	case 5:
 	        		room.setdirectionWest(Integer.valueOf(line));
-
 	        		break;
-	        		
 	        	case 6:
 	        		room.setdirectionUp(Integer.valueOf(line));
-
 	        		break;
-	        		
 	        	case 7:
 	        		room.setdirectionDown(Integer.valueOf(line));
 		        	rooms.add(room);
-
 	        		break;
-	        		
 	        	case 8:
-
 	        		break;
-	        		
 	        	}
 	            currentLine++;
 	            count++;
@@ -102,7 +86,6 @@ public class COLevelLoader {
 	            	count = 0;
 	            }
 	            line = br.readLine();
-
 	        }
 	    }
 	    catch(Exception e){
@@ -114,10 +97,11 @@ public class COLevelLoader {
 			e.printStackTrace();
 		}
 	    }		
-		
 	    return rooms;
 	}
 	
+	
+	// For Testing purposes 
 	public void printLevelFile(){
 	    try {
 	        StringBuilder sb = new StringBuilder();
@@ -138,9 +122,7 @@ public class COLevelLoader {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	    }
-		
-		
+	    }		
 	}
 	
 

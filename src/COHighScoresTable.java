@@ -1,7 +1,8 @@
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -9,33 +10,38 @@ import javax.swing.*;
 
 
 
+@SuppressWarnings("serial")
 public  class COHighScoresTable extends JComponent implements ActionListener, MouseListener {
 	Timer t;
 	private JLabel title;
 	private JPanel p;
 	private ImageIcon image;
 	private boolean animationComplete = false;
+	private boolean animationReversing = false;
+	private COFrame containerView;
 	
+	private Map<String, Integer> table;
 	
 	float scale = 0;
 	
 
 	
-	public COHighScoresTable(){
+	public COHighScoresTable(COFrame cv){
 		super.setLayout(null);
 		image = loadImageWithName("highScores.png");
 	    title = new JLabel("High Scores");
-	   
 	 
 	    p = new JPanel();
+	    
+	    containerView = cv;
 	    
 	    this.add(p);
 	    p.add(title);
 	    repaint();
 	}
 
-	public void animateOn(){
-		
+	public void animateOn(Map<String, Integer> tab){
+		table = tab;
 		t = new Timer(1, null);
 		t.addActionListener(this);
 	    this.addMouseListener(this);
@@ -58,12 +64,15 @@ public  class COHighScoresTable extends JComponent implements ActionListener, Mo
 		if(scale > 1){
 			t.stop();
 			animationComplete = true;
+			animationReversing = false;
 			scale = 1; 
 		}
 		if(scale < 0){
 			t.stop();
 			animationComplete=false;
+			animationReversing=true;
 			scale = 0;
+			this.containerView.showSpeechBubble();
 		}
 		this.repaint();
 		
@@ -102,7 +111,16 @@ public  class COHighScoresTable extends JComponent implements ActionListener, Mo
 		   g.setColor(Color.white);
 	       g.drawString("High Scrores", selfWidth/2 - titleWidth/2, selfHeight/2 - bgHeight/2 + titleHeight + 30);
 		   
-		   
+		   int i=0;
+		   if(table!=null){
+	       for(String s: table.keySet()){
+		       g.drawString(s, selfWidth/2 - titleWidth/2 - 20,(int)( selfHeight/2 - bgHeight/2 +titleHeight + 90 + (i * titleHeight) * scale));
+		       g.drawString(""+table.get(s), selfWidth/2 + 50,(int)( selfHeight/2 - bgHeight/2 +titleHeight + 90 + (i * titleHeight) * scale));
+		       i++;
+	       }
+		   } 
+	       
+	       
            
 		   p.paint(g);
 		   
@@ -159,6 +177,8 @@ public  class COHighScoresTable extends JComponent implements ActionListener, Mo
 			// TODO Auto-generated method stub
 			
 		}
+
+
 
 
 }
